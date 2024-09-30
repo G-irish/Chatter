@@ -1,0 +1,12 @@
+const express=require('express');
+const router=express.Router();
+const {registerUser, allUsers}=require('../controllers/userController');
+const {authUser}=require('../controllers/userController');
+const { notFound, errorHandler } = require('../middleware/errormiddleware');
+const protect = require('../middleware/authMiddleware');
+router.post('/',registerUser);
+router.get('/',protect,allUsers);
+router.post('/login',authUser);
+router.use(notFound);
+router.use(errorHandler);
+module.exports=router;
