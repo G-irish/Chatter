@@ -52,6 +52,12 @@ const MyChats = ({fetchAgain}) => {
                 {!chat.isGroupChat && chat.users && loggedUser ?getSender(loggedUser,chat.users):
                 chat.chatName}
               </Text>
+              {chat.latestMessage && (
+                <Text fontSize="xs">
+                  <b>{chat.latestMessage.sender.name} :</b>
+                  {chat.latestMessage.content.length>50 ? chat.latestMessage.content.substring(0,51)+"..." : chat.latestMessage.content}
+                </Text>
+              )}
             </Box>  
           ))}
         </Stack>
