@@ -22,13 +22,23 @@ const sendMessage=asyncHandler(async(req,res)=>{
             path:"chat.users",
             select:"name pic email",
         });
-        await Chat.findByIdAndUpdate(req.body.chatId,{
-            latestMessage:message,
-        });
+        await Chat.findByIdAndUpdate(chatId, { latestMessage: message });
+        // const updatedChat=await Chat.findById(chatId).populate("latestMessage");
         res.json(message);
     } catch (error) {
         res.status(400);
         throw new Error(error.message);
     }
 }); 
-module.exports={sendMessage};
+const allMessages=asyncHandler(async (req,res)=>{
+    try {
+        const messages=await Message.find({chat:req.params.chatId})
+        .populate("sender","name pic email")
+        .populate("chat")
+        res.json(messages);
+    } catch (error) {
+        res.status(400);
+        throw new Error(error.message);
+    }
+});
+module.exports={sendMessage,allMessages};
